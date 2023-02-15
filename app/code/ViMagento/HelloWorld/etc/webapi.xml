@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <!-- Cms Block -->
+    <route url="/V1/post/:postId" method="GET">
+        <service class="ViMagento\HelloWorld\Api\PostRepositoryInterface" method="getById"/>
+        <resources>
+            <resource ref="ViMagento_HelloWorld::post"/>
+        </resources>
+    </route>
+    <route url="/V1/post/search" method="GET">
+        <service class="ViMagento\HelloWorld\Api\PostRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="ViMagento_HelloWorld::post"/>
+        </resources>
+    </route>
+    <route url="/V1/post" method="POST">
+        <service class="ViMagento\HelloWorld\Api\PostRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="ViMagento_HelloWorld::post"/>
+        </resources>
+    </route>
+    <route url="/V1/post/:id" method="PUT">
+        <service class="ViMagento\HelloWorld\Api\PostRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="ViMagento_HelloWorld::post"/>
+        </resources>
+    </route>
+    <route url="/V1/post/:blockId" method="DELETE">
+        <service class="ViMagento\HelloWorld\Api\PostRepositoryInterface" method="deleteById"/>
+        <resources>
+            <resource ref="ViMagento_HelloWorld::post"/>
+        </resources>
+    </route>
+</routes>

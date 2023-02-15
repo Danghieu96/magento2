@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="vimagento_post_before_save">
+        <observer name="vimagento_post_change_name" instance="ViMagento\HelloWorld\Observer\ChangeName" />
+    </event>
+</config>

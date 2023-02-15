@@ -1,0 +1,89 @@
+<?php
+
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\ConfigurableProduct\Pricing\Render\FinalPriceBox $block */
+/** @var \Magento\Framework\Pricing\Price\PriceInterface $priceModel */
+$priceModel = $block->getPriceType('regular_price');
+/** @var \Magento\Framework\Pricing\Price\PriceInterface $finalPriceModel */
+$finalPriceModel = $block->getPriceType('final_price');
+$idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
+$schema = ($block->getZone() == 'item_view') ? true : false;
+
+$product = $block->getSaleableItem();
+$adjustmentBlock = $this->getLayout()->createBlock('Magento\Tax\Pricing\Render\Adjustment');
+
+/* Regular INCL VAT amount */
+$productFinalInclVat = $finalPriceModel->getAmount()->getValue();
+$productRegulaerInclVat = $priceModel->getAmount()->getValue();
+
+/* Regular EXCL VAT amount */
+$productFinalExclVat = $finalPriceModel->getAmount()->getBaseAmount();
+$productRegulaerExclVat = $priceModel->getAmount()->getBaseAmount();
+$helper = $this->helper(LampShop\Catalog\Helper\Data::class);
+
+?>
+
+    <?php // module/tax/frontend/base/view/product/price/amount/adjustment.phtml code append here ?>
+    <span class="normal-price w-50">
+    <?= /* @noEscape */ $block->renderAmount($finalPriceModel->getAmount(), [
+        'price_id' => $block->getPriceId('product-price-' . $idSuffix),
+        'price_type' => 'finalPrice',
+        'include_container' => true,
+        'schema' => $schema,
+    ]);
+    ?>
+    </span>
+
+    <?php // end of module/tax/frontend/base/view/product/price/amount/adjustment.phtml code append here ?>
+<?php if ($productFinalInclVat < $productRegulaerInclVat) {
+    $savePercentFirst = 100 - round(((float)$productFinalInclVat / (float)$productRegulaerInclVat) * 100, 2);
+?>
+    <span class="reguler-incl-vat-normal-price w-50 old-threw" id="reguler-incl-vat-normal-price">
+        <?= /* @noEscape */ $block->renderAmount($priceModel->getAmount(), [
+            'price_id'          => $block->getPriceId('old-price-' . $idSuffix),
+            'price_type'        => 'oldPrice',
+            'include_container' => false,
+            'skip_adjustments'  => true
+        ]); ?>
+    </span>
+
+    <?php if (!$block->isProductList()) { ?>
+        <span class="incl-saving-first-time w-50" id="first-time-show-config-incl-saving"><?php echo "Save " . $savePercentFirst . "%";  ?> </span>
+    <?php } ?>
+
+<?php } ?>
+
+
+<?php if (!$block->isProductList() && $block->hasSpecialPrice()) : ?>
+    <div id="special-old-price"  class="cat-list">
+        <span class="old-price sly-old-price no-display w-50 old-threw">
+            <?= /* @noEscape */ $block->renderAmount($priceModel->getCustomAmount($productFinalInclVat), [
+                'price_id'          => $block->getPriceId('old-price-' . $idSuffix),
+                'price_type'        => 'oldPrice',
+                'include_container' => false,
+                'skip_adjustments'  => true
+            ]); ?>
+        </span>
+
+       <span class="incl-saving w-50  no-display" id="config-incl-saving"></span>
+
+    </div>
+
+<?php endif; ?>
+
+
+<?php if ($block->showMinimalPrice()) : ?>
+    <?php if ($block->getUseLinkForAsLowAs()) : ?>
+        <a href="<?= $block->escapeUrl($block->getSaleableItem()->getProductUrl()) ?>" class="minimal-price-link">
+            <?= /* @noEscape */ $block->renderAmountMinimal() ?>
+        </a>
+    <?php else : ?>
+        <span class="minimal-price-link">
+            <?= /* @noEscape */ $block->renderAmountMinimal() ?>
+        </span>
+    <?php endif ?>
+<?php endif; ?>

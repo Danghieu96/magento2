@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="ViMagento_HelloWorld::vimagento" title="ViMagento" module="ViMagento_HelloWorld" sortOrder="41" resource="ViMagento_HelloWorld::menu"/>
+        <add id="ViMagento_HelloWorld::parent" title="ViMagento Post" module="ViMagento_HelloWorld" sortOrder="10" resource="ViMagento_HelloWorld::menu" parent="ViMagento_HelloWorld::vimagento"/>
+        <add id="ViMagento_HelloWorld::post" title="Manage Posts" module="ViMagento_HelloWorld" sortOrder="10" action="helloworld/post/index" resource="ViMagento_HelloWorld::post" parent="ViMagento_HelloWorld::parent"/>
+        <add id="ViMagento_HelloWorld::configuration" title="Configuration" module="ViMagento_HelloWorld" sortOrder="20" parent="ViMagento_HelloWorld::parent" action="adminhtml/system_config" resource="ViMagento_HelloWorld::parent"/>
+        <add id="ViMagento_HelloWorld::parents" title="ViMagento test" module="ViMagento_HelloWorld" sortOrder="10" resource="ViMagento_HelloWorld::menu" parent="ViMagento_HelloWorld::vimagento"/>
+        <add id="ViMagento_HelloWorld::posts" title="Manage Poststest" module="ViMagento_HelloWorld" sortOrder="10" action="helloworld/post/index" resource="ViMagento_HelloWorld::post" parent="ViMagento_HelloWorld::parents"/>
+        <add id="ViMagento_HelloWorld::configurations" title="Configurationtest" module="ViMagento_HelloWorld" sortOrder="20" parent="ViMagento_HelloWorld::parents" action="adminhtml/system_config" resource="ViMagento_HelloWorld::parent"/>
+    </menu>
+</config>

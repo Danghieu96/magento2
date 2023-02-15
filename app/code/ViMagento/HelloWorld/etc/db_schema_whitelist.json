@@ -1,0 +1,17 @@
+{
+    "helloworld_post": {
+        "column": {
+            "post_id": true,
+            "name": true,
+            "status": true,
+            "content": true,
+            "created_at": true
+        },
+        "index": {
+            "HELLOWORLD_POST_POST_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}
